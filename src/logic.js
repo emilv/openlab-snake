@@ -19,6 +19,7 @@ function end(gameState) {
 }
 
 function move(gameState) {
+    console.log(gameState)
     let possibleMoves = {
         up: true,
         down: true,
@@ -41,8 +42,21 @@ function move(gameState) {
 
     // TODO: Step 1 - Don't hit walls.
     // Use information in gameState to prevent your Battlesnake from moving beyond the boundaries of the board.
-    // const boardWidth = gameState.board.width
-    // const boardHeight = gameState.board.height
+    const boardWidth = gameState.board.width
+    const boardHeight = gameState.board.height
+    if (myHead.x == 0) {
+        possibleMoves.left = false
+    }
+    if (myHead.y == 0) {
+        possibleMoves.down = false
+    }
+    if (myHead.x == boardWidth - 1) {
+        possibleMoves.right = false
+    }
+    if (myHead.y == boardHeight - 1) {
+        possibleMoves.up = false
+    }
+    console.log("head x:", myHead.x, "head y:", myHead.y, "width:", boardWidth, "height:", boardHeight)
 
     // TODO: Step 2 - Don't hit yourself.
     // Use information in gameState to prevent your Battlesnake from colliding with itself.
@@ -56,7 +70,9 @@ function move(gameState) {
 
     // Finally, choose a move from the available safe moves.
     // TODO: Step 5 - Select a move to make based on strategy, rather than random.
+    console.log("possible moves:", possibleMoves)
     const safeMoves = Object.keys(possibleMoves).filter(key => possibleMoves[key])
+    console.log("safe moves:", safeMoves)
     const response = {
         move: safeMoves[Math.floor(Math.random() * safeMoves.length)],
     }
