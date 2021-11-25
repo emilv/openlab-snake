@@ -44,6 +44,12 @@ function move(gameState) {
         left: true,
         right: true
     }
+    let preferredMoves = {
+        up: true,
+        down: true,
+        left: true,
+        right: true
+    }
     let currentDirection = null;
 
     // Step 0: Don't let your Battlesnake move back on its own neck
@@ -128,16 +134,15 @@ function move(gameState) {
         for (m of [-1, 0, 1]) {
           for (n of [1, 2]) {
             if (headAt(myHead.x - n, myHead.y+m))
-              possibleMoves.left = false
+              preferredMoves.left = false
             if (headAt(myHead.x + n, myHead.y+m))
-              possibleMoves.right = false
+              preferredMoves.right = false
             if (headAt(myHead.x+m, myHead.y - n))
-              possibleMoves.down = false
+              preferredMoves.down = false
             if (headAt(myHead.x+m, myHead.y + n))
-              possibleMoves.up = false
+              preferredMoves.up = false
           }
         }
-
         /*
         if(myHead.x == theirHead.x - 2)
             possibleMoves.left = false;
@@ -183,6 +188,8 @@ function move(gameState) {
     console.log("possible moves:", possibleMoves)
     const safeMoves = shuffle(Object.keys(possibleMoves).filter(key => possibleMoves[key]))
     console.log("safe moves:", safeMoves)
+    const betterMoves = safeMoves.filter(key => preferredMoves[key])
+    console.log("better moves:", betterMoves)
 
     const isSafe = move => safeMoves.includes(move)
     const pickSafe = lst => lst.find(isSafe)
@@ -262,9 +269,12 @@ function move(gameState) {
     // Finally, choose a move from the available safe moves.
     // TODO: Step 5 - Select a move to make based on strategy, rather than random.
 
-    let move = safeMoves[Math.floor(Math.random() * safeMoves.length)]
+    let move = safeMoves.length > 0 ? safeMoves[0] : null
     if (safeMoves.includes(currentDirection)) {
       move = currentDirection
+    }
+    if (betterMoves.length > 0) {
+      move = betterMoves.includes(currentDirection) ? currentDirection : betterMoves[0]
     }
     if (foodMove && isSafe(foodMove)) {
       console.log("choosing food move:", foodMove)
