@@ -193,6 +193,7 @@ function move(gameState) {
 
     const isSafe = move => safeMoves.includes(move)
     const pickSafe = lst => lst.find(isSafe)
+    const isBetter = move => safeMoves.includes(move)
 
     // TODO: Step 4 - Find food.
     // Use information in gameState to seek out and find food.
@@ -276,10 +277,10 @@ function move(gameState) {
     if (betterMoves.length > 0) {
       move = betterMoves.includes(currentDirection) ? currentDirection : betterMoves[0]
     }
-    if (foodMove && isSafe(foodMove)) {
+    if (foodMove && isBetter(foodMove)) {
       console.log("choosing food move:", foodMove)
       move = foodMove
-    }else if(borderMove && isSafe(borderMove)){
+    }else if(borderMove && isBetter(borderMove)){
       console.log("choosing border move:", borderMove)
       move = borderMove
     }
