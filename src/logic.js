@@ -86,6 +86,7 @@ function move(gameState) {
     if (myHead.y == boardHeight - 1) {
         possibleMoves.up = false
     }
+
     console.log("head x:", myHead.x, "head y:", myHead.y, "width:", boardWidth, "height:", boardHeight)
 
     // TODO: Step 2 - Don't hit yourself.
@@ -106,6 +107,7 @@ function move(gameState) {
           possibleMoves.down = false;
         } 
       })
+
 
     // TODO: Step 3 - Don't collide with others.
     // Use information in gameState to prevent your Battlesnake // from colliding with others.
